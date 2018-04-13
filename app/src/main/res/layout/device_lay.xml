@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:orientation="vertical"
+    android:background="#edeaea"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DevicesActivity">
+
+    <Button
+        android:id="@+id/btn_action"
+        android:text="激活设备管理器"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"/>
+
+    <Button
+        android:id="@+id/btn_cancel_active"
+        android:text="取消激活设备管理器"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"/>
+
+    <Button
+        android:id="@+id/btn_change_password"
+        android:text="修改密码为1234"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_cancel_password"
+        android:text="取消密码"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_lock"
+        android:text="锁屏"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"/>
+
+    <Button
+        android:id="@+id/btn_setCameraDisabled"
+        android:text="禁用 相机"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"/>
+
+    <Button
+        android:id="@+id/btn_setCameraDisabled1"
+        android:text="启动 相机"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"/>
+</LinearLayout>

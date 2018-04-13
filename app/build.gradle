@@ -1,0 +1,98 @@
+apply plugin: 'com.android.application'
+apply plugin: "com.mob.sdk"
+apply plugin: 'org.greenrobot.greendao'
+// 在MobSDK的扩展中注册SMSSDK的相关信息
+MobSDK {
+    appKey "24807f5c098f9"
+    appSecret "f1063947fd2994595bb501e5d44c1553"
+
+    SMSSDK {}
+}
+repositories {
+    mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
+}
+
+// 显示的时间格式，形如201803271533
+static def releaseTime() {
+    return new Date().format("yyyyMMddHHmm", TimeZone.getTimeZone("Asia/Shanghai"))
+}
+
+android {
+    signingConfigs {
+        config {
+            keyAlias 'demo'
+            keyPassword '111111'
+            storeFile file('D:/AndroidPro/Android/ssgmdemo.jks')
+            storePassword '111111'
+        }
+    }
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.example.administrator.myapplication"
+        minSdkVersion 22
+        targetSdkVersion 26
+        versionCode 2
+        versionName "2.2.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //添加如下配置就OK了
+        javaCompileOptions {
+            annotationProcessorOptions { includeCompileClasspath = true }
+        }
+        externalNativeBuild {
+            cmake {
+                // 默认是 “ cppFlags "" ”
+                // 如果要修改 Customize C++ Support 部分，可在这里加入
+                cppFlags "-frtti -fexceptions"
+            }
+        }
+        ndk {
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'mips', 'mips64', 'x86'
+        }
+        android.applicationVariants.all { variant ->
+            variant.outputs.all { output ->
+                def outputFile = output.outputFile
+                // 显示app名称+当前版本号
+                def fileName = "SSGMMobileAssistant-V${variant.versionName}"
+                if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                    outputFileName = fileName + "-" + releaseTime() + "-" + output.baseName + ".apk"
+                }
+            }
+        }
+    }
+    greendao {
+        schemaVersion 1  //版本
+        daoPackage 'com.example.administrator.myapplication.greendao' // 一般为app包名+生成文件的文件夹名
+        targetGenDir 'src/main/java' //生成文件路径
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path 'CMakeLists.txt'
+        }
+    }
+}
+
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation 'com.loopj.android:android-async-http:1.4.9'
+    implementation 'com.jakewharton:butterknife:7.0.1'
+    implementation 'com.android.support:design:26.1.0'
+    implementation 'org.greenrobot:greendao:3.2.2' // add library
+    implementation 'org.greenrobot:greendao-generator:3.2.2'
+    implementation project(':aFileChooser')
+}

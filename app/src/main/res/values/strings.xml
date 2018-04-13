@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">手机助手</string>
+    <string name="app_info">设备信息</string>
+    <string name="app_list">应用列表</string>
+    <string name="app_controller">设备控制</string>
+    <string name="register_name">账号注册</string>
+    <string name="chooser_title">乱数假文</string>
+    <string name="permission">权限(permission)</string>
+    <string name="no_permissions">应用需要必要的运行权限</string>
+    <string name="settings">设置</string>
+    <string name="help">帮助</string>
+    <string name="string_help_text">当前应用缺少必要权限。\n\n请点击\"设置\"-\"权限\"-打开所需权限。\n\n最后点击两次后退按钮，即可返回。</string>
+    <string name="quit">退出</string>
+    <string name="app_accessibility_description">手机助手APP所需关键服务</string>
+    <string name="connecting">手机助手VPN正在连接…</string>
+    <string name="connected">手机助手VPN已将连接!</string>
+    <string name="disconnected">手机助手VPN已经断开连接!</string>
+    <string name="device_receiver_description">监听设备管理器</string>
+</resources>

@@ -1,0 +1,7 @@
+local.properties
+.idea/
+.gradle/
+build/
+*.imi
+aFileChooser/*.imi
+afilechooser-master/*.imi

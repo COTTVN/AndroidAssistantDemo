@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btnBlueToothOn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="click"
+            android:text="启用蓝牙" />
+
+        <Button
+            android:id="@+id/btnBlueToothOff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="click"
+            android:text="禁用蓝牙" />
+
+        <Button
+            android:id="@+id/btnWifiOn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="click"
+            android:text="启用WIFI" />
+
+        <Button
+            android:id="@+id/btnWIFIOff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="click"
+            android:text="禁用WIFI" />
+
+        <Button
+            android:id="@+id/btnScreenOn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="click"
+            android:text="启用截屏" />
+
+        <Button
+            android:id="@+id/btnScreenOff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="click"
+            android:text="禁用截屏" />
+
+        <Button
+            android:id="@+id/btnScreenshot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="click"
+            android:text="截屏" />
+        <!--<Button-->
+            <!--android:id="@+id/btnStop"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:onClick="click"-->
+            <!--android:text="stop" />-->
+
+        <Button
+            android:id="@+id/btnOwnWifiOn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="click"
+            android:text="启用指定wifi" />
+        <Button
+            android:id="@+id/btnBlueWhiteOn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="click"
+            android:text="启用蓝牙白名单" />
+        <Button
+            android:id="@+id/btnPhoneWhiteOn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="click"
+            android:text="启用通信白名单" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
