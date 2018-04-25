@@ -28,6 +28,7 @@
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--允许程序获取网络信息状态，如当前的网络连接是否有效-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -39,7 +40,14 @@
 
     <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" />
 
+    <!--控制移动数据开关-->
+    <!--允许程序修改电话状态，如飞行模式，但不包含替换系统拨号器界面-->
+    <uses-permission android:name="android.permission.MODIFY_PHONE_STATE"/>
+    <!--允许程序写入网络GPRS接入点设置-->
+    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS" />
 
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
 
     <application
         android:name=".MyApp"
@@ -61,7 +69,7 @@
         <activity android:name=".RegisterActivity"
             android:label="@string/register_name">
         </activity>
-        <activity android:name=".IndexActivity"/>
+        <activity android:name=".IndexActivity"/>fv
         <activity android:name=".ShowActivity"/>
         <activity android:name=".ListScrollActivity"/>
         <activity android:name=".UpOrDownActicity"/>
@@ -83,6 +91,7 @@
         </activity>
         <activity android:name=".DevicesActivity"/>
         <receiver android:name=".MonitorSysReceiver"
+            android:label="@string/device_name"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
             <meta-data
                 android:name="android.app.device_admin"
@@ -101,6 +110,7 @@
 
         <!--无障碍服务-->
         <service android:name=".MyAccessibilityService" android:exported="false"
+            android:label="@string/accessibility_name"
             android:permission = "android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
@@ -128,6 +138,8 @@
 
         <service android:name=".ScreenShotService"/>
 
+        <activity android:name=".PermissionTwo"/>
+        <activity android:name=".CameraActivity" android:label="@string/camera"/>
     </application>
 
 

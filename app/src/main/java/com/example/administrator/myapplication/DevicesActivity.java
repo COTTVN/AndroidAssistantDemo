@@ -213,7 +213,7 @@ public class DevicesActivity extends AppCompatActivity{
             //setNetworkLoggingEnabled(ComponentName admin, boolean enabled)
             //如果设置为2，则表示新密码和前2次设置的不能相同
             devicePolicyManager.setPasswordHistoryLength(componentName,2);//历史记录次数
-            devicePolicyManager.setPasswordExpirationTimeout(componentName,87000000);//密码过期时间一周605000000
+            devicePolicyManager.setPasswordExpirationTimeout(componentName,600000);//密码过期时间一周605000000  87000000
             devicePolicyManager.setMaximumTimeToLock(componentName, 600000);//锁屏时间10分钟
         }catch(Exception e){
             e.printStackTrace();

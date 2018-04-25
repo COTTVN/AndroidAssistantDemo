@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">手机助手</string>
+    <string name="device_name">SGM设备管理</string>
+    <string name="camera">拍照</string>
+    <string name="accessibility_name">SGM服务</string>
     <string name="app_info">设备信息</string>
     <string name="app_list">应用列表</string>
     <string name="app_controller">设备控制</string>

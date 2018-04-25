@@ -84,7 +84,7 @@ public class BaseAccessibilityService extends AccessibilityService {
      */
     public void performBackClick() {
         try {
-            Thread.sleep(10);
+            Thread.sleep(260);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

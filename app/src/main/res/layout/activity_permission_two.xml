@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btnTencent"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:onClick="weChat"
+            android:text="微信/QQ限制" />
+
+        <Button
+            android:id="@+id/btnMobData"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:onClick="mobData"
+            android:text="允许移动数据" />
+
+        <TextView
+            android:id="@+id/txtFlow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_blue_light" />
+
+        <TextView
+            android:id="@+id/txtTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray" />
+
+        <Button
+            android:id="@+id/btnGetFlow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="getFlow"
+            android:text="获取手机流量" />
+
+        <Button
+            android:id="@+id/btnCamera"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:onClick="camera"
+            android:text="拍照" />
+
+        <TextureView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textureView" />
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

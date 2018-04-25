@@ -50,7 +50,9 @@ public class ShowActivity extends AppCompatActivity{
     // 所需的全部权限
     static final String[] PERMISSIONS = new String[]{
             Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.MODIFY_AUDIO_SETTINGS
+            Manifest.permission.MODIFY_AUDIO_SETTINGS,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.CAMERA
     };
 
 //    @Bind(R.id.main_t_toolbar)
@@ -90,6 +92,7 @@ public class ShowActivity extends AppCompatActivity{
         menu.add(0,5,5,"手机信息");
         menu.add(0,6,6,"应用列表");
         menu.add(0,7,7,"设备控制");
+        menu.add(0,8,8,"访问控制");
         return true;
     }
     @Override
@@ -115,6 +118,9 @@ public class ShowActivity extends AppCompatActivity{
             startActivity(intent);
         }else if (item.getGroupId() == 0 &&item.getItemId() == 7){
             Intent intent = new Intent(this, PermissionActivity.class);
+            startActivity(intent);
+        }else if (item.getGroupId() == 0 &&item.getItemId() == 8){
+            Intent intent = new Intent(this, PermissionTwo.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

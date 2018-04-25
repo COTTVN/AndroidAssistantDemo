@@ -22,17 +22,17 @@ public class DaoMaster extends AbstractDaoMaster {
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(Database db, boolean ifNotExists) {
         dayStepDao.createTable(db, ifNotExists);
-        SportInfoDao.createTable(db, ifNotExists);
         FatherDao.createTable(db, ifNotExists);
         SonDao.createTable(db, ifNotExists);
+        SportInfoDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
         dayStepDao.dropTable(db, ifExists);
-        SportInfoDao.dropTable(db, ifExists);
         FatherDao.dropTable(db, ifExists);
         SonDao.dropTable(db, ifExists);
+        SportInfoDao.dropTable(db, ifExists);
     }
 
     /**
@@ -52,9 +52,9 @@ public class DaoMaster extends AbstractDaoMaster {
     public DaoMaster(Database db) {
         super(db, SCHEMA_VERSION);
         registerDaoClass(dayStepDao.class);
-        registerDaoClass(SportInfoDao.class);
         registerDaoClass(FatherDao.class);
         registerDaoClass(SonDao.class);
+        registerDaoClass(SportInfoDao.class);
     }
 
     public DaoSession newSession() {

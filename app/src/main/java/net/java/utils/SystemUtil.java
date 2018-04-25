@@ -5,19 +5,28 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.RemoteException;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.example.administrator.myapplication.PermissionTwo;
+
+import net.java.entity.APNMatchTools;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -38,6 +47,7 @@ import static android.content.Context.TELEPHONY_SERVICE;
 import static android.content.Context.TELEPHONY_SUBSCRIPTION_SERVICE;
 
 public class SystemUtil {
+    private static Uri uri = Uri.parse("content://telephony/carriers/preferapn");
     /**
      * 获取当前手机系统语言。
      *
@@ -92,8 +102,7 @@ public class SystemUtil {
     public static String[] getIMEI(Context ctx) {
         String[] info={"null","null"};
         TelephonyManager tm = (TelephonyManager) ctx.getSystemService(TELEPHONY_SERVICE);
-        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(ctx, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED){
             if (tm != null) {
                 for (int slot = 0; slot < tm.getPhoneCount(); slot++) {
                     String imei = tm.getDeviceId(slot);
@@ -111,8 +120,7 @@ public class SystemUtil {
      */
     public static String getIMSI(Context ctx){
         TelephonyManager tm = (TelephonyManager) ctx.getSystemService(TELEPHONY_SERVICE);
-        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(ctx, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
             if (tm != null) {
                 String _imsi = tm.getSubscriberId();
                 if (_imsi != null && !_imsi.equals("")) {
@@ -277,5 +285,104 @@ public class SystemUtil {
             }
         }
         return false;
+    }
+    /**
+     * 设置手机的移动数据
+     * @param slotIdx 卡槽编号 0,1 -> sim1,sim2
+     * @param enable 是否启用
+     */
+    public static void setMobileData(int slotIdx, boolean enable,Context context) {
+        try {
+            int subid = SubscriptionManager.from(context).getActiveSubscriptionInfoForSimSlotIndex(slotIdx).getSubscriptionId();
+            TelephonyManager telephonyService = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            if(telephonyService!=null) {
+                Method setDataEnabled = telephonyService.getClass().getDeclaredMethod("setDataEnabled", int.class, boolean.class);
+                if (null != setDataEnabled) {
+                    setDataEnabled.invoke(telephonyService, subid, enable);
+                }
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+            Log.e("mobbileDataErr",e.getMessage());
+        }
+    }
+    //此方法试用 <=5.0
+    public static void toggleMobileData(Context context, boolean enabled){
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        Method setMobileDataEnabl;
+        try {
+            setMobileDataEnabl = connectivityManager.getClass().getDeclaredMethod("setMobileDataEnabled", boolean.class);
+            setMobileDataEnabl.invoke(connectivityManager, enabled);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //直接修改系统数据库达到移动数据开启关闭的效果
+    // 开启APN
+    public static void openAPN(Context ctx) {
+        try {
+            List<APN> list = getAPNList(ctx);
+            for (APN apn : list) {
+                ContentValues cv = new ContentValues();
+                // 获取及保存移动或联通手机卡的APN网络匹配
+                cv.put("apn", APNMatchTools.matchAPN(apn.apn));
+                cv.put("type", APNMatchTools.matchAPN(apn.type));
+                // 更新系统数据库，改变移动网络状态
+                ctx.getContentResolver().update(uri, cv, "_id=?", new String[]{apn.id});
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.e("mobDataOpenError",e.getMessage());
+        }
+    }
+    // 关闭APN
+    public static void closeAPN(Context ctx) {
+        try {
+            List<APN> list = getAPNList(ctx);
+            for (APN apn : list) {
+                // 创建ContentValues保存数据
+                ContentValues cv = new ContentValues();
+                // 添加"close"匹配一个错误的APN，关闭网络
+                cv.put("apn", APNMatchTools.matchAPN(apn.apn) + "close");
+                cv.put("type", APNMatchTools.matchAPN(apn.type) + "close");
+
+                // 更新系统数据库，改变移动网络状态
+                ctx.getContentResolver().update(uri, cv, "_id=?", new String[]{apn.id});
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.e("mobDataCloseError",e.getMessage());
+        }
+    }
+    public static class APN {
+        String id;
+        String apn;
+        String type;
+    }
+    private static List<APN> getAPNList(Context ctx) {
+        // current不为空表示可以使用的APN
+        String projection[] = {"_id, apn, type, current"};
+        // 查询获取系统数据库的内容
+        Cursor cr = ctx.getContentResolver().query(uri, projection, null, null, null);
+        // 创建一个List集合
+        List<APN> list = new ArrayList<APN>();
+        while (cr != null && cr.moveToNext()) {
+            Log.d("ApnSwitch", "id" + cr.getString(cr.getColumnIndex("_id")) + " \n" + "apn"
+                    + cr.getString(cr.getColumnIndex("apn")) + "\n" + "type"
+                    + cr.getString(cr.getColumnIndex("type")) + "\n" + "current"
+                    + cr.getString(cr.getColumnIndex("current")));
+            APN a = new APN();
+            a.id = cr.getString(cr.getColumnIndex("_id"));
+            a.apn = cr.getString(cr.getColumnIndex("apn"));
+            a.type = cr.getString(cr.getColumnIndex("type"));
+            list.add(a);
+        }
+
+        if (cr != null) {
+            cr.close();
+        }
+        return list;
     }
 }

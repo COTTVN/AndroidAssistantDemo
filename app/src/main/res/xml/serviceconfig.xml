@@ -12,4 +12,4 @@
 
     android:accessibilityFlags="flagDefault"
 
-    android:canRetrieveWindowContent="true"/>
+    android:canRetrieveWindowContent="true" />
